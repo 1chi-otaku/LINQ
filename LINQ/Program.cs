@@ -141,12 +141,12 @@ namespace LINQ
                             break;
 
                         case 7:
-                            var uniqueCountries = departments.Select(department => department.Country).Distinct();
+                            var uniqueCountries = (from department in departments select department.Country).Distinct();
                             PrintStrings(uniqueCountries);
                             break;
 
                         case 8:
-                            var employeesOver25 = employees.Where(employee => employee.Age > 25).Take(3);
+                            var employeesOver25 = (from employee in employees where employee.Age > 25 select employee).Take(3);
                             PrintEmployees(employeesOver25);
                             break;
 
@@ -158,10 +158,8 @@ namespace LINQ
                             break;
 
                         case 10:
-                            var ukrainianEmployeesNamesSorted = from employee in employees
-                                                                where departments.Any(d => d.Id == employee.DepId && d.Country == "Ukraine")
-                                                                orderby employee.FirstName, employee.LastName
-                                                                select employee;
+
+                            var ukrainianEmployeesNamesSorted = (from employee in employees where departments.Any(d => d.Id == employee.DepId && d.Country == "Ukraine")orderby employee.FirstName, employee.LastName select employee).ToList();
                             PrintEmployees(ukrainianEmployeesNamesSorted);
                             break;
 
